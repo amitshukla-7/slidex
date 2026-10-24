@@ -1,0 +1,28 @@
+{
+  "name": "gesturedeck-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GestureDeck: Production-Grade AI-Powered Gesture-Controlled Presentation System",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/web",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspace=apps/web",
+    "build:web": "npm run build --workspace=apps/web",
+    "lint": "npm run lint --workspace=apps/web",
+    "preview": "npm run preview --workspace=apps/web"
+  },
+  "keywords": [
+    "gesture-control",
+    "presentation",
+    "mediapipe",
+    "tensorflowjs",
+    "computer-vision",
+    "fastapi",
+    "react"
+  ],
+  "author": "GestureDeck Engineering Team",
+  "license": "MIT"
+}

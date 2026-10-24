@@ -1,0 +1,41 @@
+# Node
+node_modules/
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# Environment & Keys
+.env
+.env.local
+.env.*.local
+*.pem
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+*.sqlite3
+*.db
+
+# MediaPipe / TFJS models & caches
+*.wasm
+!apps/web/public/**/*.wasm
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

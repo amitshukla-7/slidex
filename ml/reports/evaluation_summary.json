@@ -1,0 +1,167 @@
+{
+  "timestamp": "2026-10-24 12:11:19",
+  "total_samples": 5600,
+  "test_samples": 1120,
+  "accuracy": 98.12,
+  "weighted_precision": 98.12,
+  "weighted_recall": 98.12,
+  "weighted_f1": 98.11,
+  "mean_latency_ms": 0.182,
+  "p95_latency_ms": 0.272,
+  "lighting_performance": {
+    "bright": {
+      "samples": 385,
+      "accuracy": 99.74
+    },
+    "normal": {
+      "samples": 380,
+      "accuracy": 99.47
+    },
+    "dim": {
+      "samples": 355,
+      "accuracy": 94.93
+    }
+  },
+  "classes": [
+    "OPEN_PALM",
+    "SWIPE_LEFT",
+    "SWIPE_RIGHT",
+    "POINTING",
+    "PINCH",
+    "FIST",
+    "THUMBS_UP",
+    "TWO_FINGERS"
+  ],
+  "confusion_matrix": [
+    [
+      130,
+      9,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      6,
+      129,
+      5,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      140,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      140,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      140,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      140,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      140,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      140
+    ]
+  ],
+  "per_class_metrics": {
+    "OPEN_PALM": {
+      "precision": 95.59,
+      "recall": 92.86,
+      "f1": 94.2,
+      "support": 140.0
+    },
+    "SWIPE_LEFT": {
+      "precision": 93.48,
+      "recall": 92.14,
+      "f1": 92.81,
+      "support": 140.0
+    },
+    "SWIPE_RIGHT": {
+      "precision": 95.89,
+      "recall": 100.0,
+      "f1": 97.9,
+      "support": 140.0
+    },
+    "POINTING": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "support": 140.0
+    },
+    "PINCH": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "support": 140.0
+    },
+    "FIST": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "support": 140.0
+    },
+    "THUMBS_UP": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "support": 140.0
+    },
+    "TWO_FINGERS": {
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1": 100.0,
+      "support": 140.0
+    }
+  }
+}

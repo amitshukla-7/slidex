@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.web
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://gesturedeck:gesturedeck@postgres:5432/gesturedeck
+      - SECRET_KEY=production-secret-gesturedeck-key-change-me
+      - BACKEND_CORS_ORIGINS=["http://localhost:5173","http://localhost:80","http://127.0.0.1:5173"]
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: gesturedeck
+      POSTGRES_PASSWORD: gesturedeck
+      POSTGRES_DB: gesturedeck
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
