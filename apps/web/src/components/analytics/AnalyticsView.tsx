@@ -105,7 +105,7 @@ export function AnalyticsView() {
     );
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `gesturedeck_analytics_${Date.now()}.json`);
+    downloadAnchor.setAttribute('download', `slidex_analytics_${Date.now()}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();

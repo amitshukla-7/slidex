@@ -226,7 +226,7 @@ export function CommandPalette() {
             <span><kbd className="font-mono">↑↓</kbd> Navigate</span>
             <span><kbd className="font-mono">↵</kbd> Select</span>
           </div>
-          <span className="font-mono text-[10px]">GestureDeck Quick Dispatch</span>
+          <span className="font-mono text-[10px]">slideX Quick Dispatch</span>
         </div>
       </div>
     </div>

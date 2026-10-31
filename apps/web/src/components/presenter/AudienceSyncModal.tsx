@@ -17,7 +17,7 @@ export function AudienceSyncModal({ isOpen, onClose }: AudienceSyncModalProps) {
 
   const syncUrl = typeof window !== 'undefined' 
     ? `${window.location.origin}/remote?deck=${currentPresentationId}`
-    : `https://gesturedeck.app/remote?deck=${currentPresentationId}`;
+    : `https://slidex.app/remote?deck=${currentPresentationId}`;
 
   const handleCopyLink = () => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {

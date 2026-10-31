@@ -3,7 +3,7 @@ import { runVisionEngineUnitTests } from './visionEngine.test';
 const { passed, failed, results } = runVisionEngineUnitTests();
 
 console.log('\n=======================================');
-console.log('  GESTUREDECK VISION ENGINE UNIT TESTS ');
+console.log('    SLIDEX VISION ENGINE UNIT TESTS    ');
 console.log('=======================================');
 results.forEach((r) => console.log(r));
 console.log(`\nTOTAL: ${passed} PASSED, ${failed} FAILED\n`);

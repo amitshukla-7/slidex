@@ -1,4 +1,4 @@
-# GestureDeck — 5-Minute Live Viva Demo Script
+# slideX — 5-Minute Live Viva Demo Script
 
 ### Target Duration: 5 Minutes (Strict)
 ### Audience: Faculty Examination Committee & Project Evaluators
@@ -6,9 +6,9 @@
 ---
 
 ### Step 1: Context & Problem (00:00 - 01:00)
-- **Action**: Open the GestureDeck Dashboard view. Show the clean, dark-themed UI.
+- **Action**: Open the slideX Dashboard view. Show the clean, dark-themed UI.
 - **Presenter Dialogue**:
-  > "Respected committee members, during formal technical presentations, speakers frequently grapple with battery failures on remote clickers, awkward podium positioning, or delays switching to laser pointers. We developed GestureDeck to eliminate physical hardware remotes entirely. Every standard laptop webcam becomes a high-speed, sub-50ms precision controller, with zero camera video ever leaving the browser."
+  > "Respected committee members, during formal technical presentations, speakers frequently grapple with battery failures on remote clickers, awkward podium positioning, or delays switching to laser pointers. We developed slideX to eliminate physical hardware remotes entirely. Every standard laptop webcam becomes a high-speed, sub-50ms precision controller, with zero camera video ever leaving the browser."
 
 ---
 
@@ -48,4 +48,4 @@
   >
   > Finally, here in our Session Analytics and AI Rehearsal Coach, the system benchmarks time spent per slide, tracks gesture accuracy (98.2%), and provides AI feedback on delivery pace.
   >
-  > GestureDeck is fully tested, runs completely in the browser, and is ready for live committee evaluation."
+  > slideX is fully tested, runs completely in the browser, and is ready for live committee evaluation."

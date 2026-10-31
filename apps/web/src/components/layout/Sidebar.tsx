@@ -51,7 +51,7 @@ export function Sidebar() {
           {sidebarOpen && (
             <div className="flex flex-col min-w-0">
               <span className="font-semibold text-sm tracking-tight text-foreground flex items-center gap-1.5">
-                GestureDeck
+                slideX
               </span>
               <span className="text-[11px] text-muted-foreground truncate">Touchless Presentations</span>
             </div>

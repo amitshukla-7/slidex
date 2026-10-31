@@ -115,7 +115,7 @@ export function DashboardView() {
           title: data.title || aiTopic,
           description: data.description || `AI-generated presentation on ${aiTopic}`,
           category: data.category || 'Artificial Intelligence',
-          author: 'GestureDeck AI Assistant',
+          author: 'slideX AI Assistant',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           theme: 'dark',
@@ -580,7 +580,7 @@ export function DashboardView() {
               Generate Deck with AI
             </DialogTitle>
             <DialogDescription>
-              Enter a presentation topic. GestureDeck will generate slides, outline, and speaker notes.
+              Enter a presentation topic. slideX will generate slides, outline, and speaker notes.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 py-2">

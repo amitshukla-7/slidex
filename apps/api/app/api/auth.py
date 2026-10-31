@@ -85,7 +85,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     if not user:
         user = User(
             id="demo-user",
-            email="presenter@gesturedeck.app",
+            email="presenter@slidex.app",
             full_name="Keynote Presenter",
             hashed_password=get_password_hash("password123")
         )

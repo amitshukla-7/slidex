@@ -1,2 +1,2 @@
-"""GestureDeck FastAPI Backend Package."""
+"""slideX FastAPI Backend Package."""
 __version__ = "1.0.0"

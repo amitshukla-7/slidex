@@ -18,7 +18,7 @@ const getSystemTheme = (): 'dark' | 'light' => {
 
 const getInitialTheme = (): Theme => {
   if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem('gesturedeck-theme') as Theme;
+    const saved = (localStorage.getItem('slidex-theme') || localStorage.getItem('gesturedeck-theme')) as Theme;
     if (saved && ['dark', 'light', 'system'].includes(saved)) {
       return saved;
     }
@@ -46,7 +46,7 @@ export const useThemeStore = create<ThemeStore>((set, get) => {
         const root = document.documentElement;
         root.classList.remove('light', 'dark');
         root.classList.add(resolved);
-        localStorage.setItem('gesturedeck-theme', newTheme);
+        localStorage.setItem('slidex-theme', newTheme);
       }
       set({ theme: newTheme, resolvedTheme: resolved });
     },

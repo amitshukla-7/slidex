@@ -34,13 +34,13 @@ export function Header() {
     presenter: { title: 'Presenter Mode', subtitle: 'Hands-free gesture control active' },
     rehearsal: { title: 'AI Rehearsal Coach', subtitle: 'Practice speech pace & delivery' },
     calibration: { title: 'Camera & Gesture Setup', subtitle: 'Check camera angle and sensitivity' },
-    trainer: { title: 'Custom Gesture Trainer', subtitle: 'Teach GestureDeck a custom move' },
+    trainer: { title: 'Custom Gesture Trainer', subtitle: 'Teach slideX a custom move' },
     analytics: { title: 'Session Analytics', subtitle: 'Review pace & presentation history' },
     docs: { title: 'Help & Viva Preparation', subtitle: 'Demo guide and committee questions' },
     settings: { title: 'Preferences', subtitle: 'Customize hand gestures and options' },
   };
 
-  const currentMeta = viewTitles[currentView] || { title: 'Workspace', subtitle: 'GestureDeck' };
+  const currentMeta = viewTitles[currentView] || { title: 'Workspace', subtitle: 'slideX' };
 
   return (
     <header className="flex h-14 w-full items-center justify-between border-b border-border bg-card/80 backdrop-blur-md px-6 select-none shrink-0 z-20">
@@ -50,7 +50,7 @@ export function Header() {
           onClick={() => setCurrentView('dashboard')}
           className="flex items-center gap-2 text-xs hover:opacity-80 transition-opacity"
         >
-          <span className="text-muted-foreground font-medium">GestureDeck</span>
+          <span className="text-muted-foreground font-medium">slideX</span>
           <span className="text-muted-foreground/40">/</span>
           <span className="font-semibold text-foreground tracking-tight">{currentMeta.title}</span>
         </button>

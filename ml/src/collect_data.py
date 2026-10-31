@@ -1,5 +1,5 @@
 """
-GestureDeck - Webcam Landmark Collection Script
+slideX - Webcam Landmark Collection Script
 Records live 21-point 3D hand coordinates from webcam to normalized CSV dataset.
 Usage: python collect_data.py --gesture OPEN_PALM --samples 500
 """
@@ -81,7 +81,7 @@ def collect_landmarks(gesture_name: str, target_samples: int = 500, output_path:
 
             cv2.putText(frame, f"Gesture: {gesture_name}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
             cv2.putText(frame, status_text, (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.7, status_color, 2)
-            cv2.imshow("GestureDeck - Landmark Recorder", frame)
+            cv2.imshow("slideX - Landmark Recorder", frame)
 
             key = cv2.waitKey(1) & 0xFF
             if key == 32:  # Spacebar

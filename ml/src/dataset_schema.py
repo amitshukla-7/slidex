@@ -1,5 +1,5 @@
 """
-GestureDeck ML Pipeline - Dataset Schema & Feature Normalization
+slideX ML Pipeline - Dataset Schema & Feature Normalization
 Defines the 63 normalized landmark features, class labels, and geometric scaling.
 """
 

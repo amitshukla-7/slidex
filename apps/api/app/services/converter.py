@@ -5,7 +5,7 @@ from typing import Dict, Any, List
 import pypdf
 from pptx import Presentation as PptxPresentation
 
-logger = logging.getLogger("gesturedeck.converter")
+logger = logging.getLogger("slidex.converter")
 
 
 class PresentationConverter:

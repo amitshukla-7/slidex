@@ -135,7 +135,7 @@ export function DocsView() {
                 <span className="text-xs font-semibold text-foreground">The Hook & Problem Statement</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                "Respected examiners, presenters are historically bound to handheld remotes, podiums, or tangled clickers. Today we present GestureDeck: a completely browser-native, touchless presentation control system where any webcam becomes a high-precision input device."
+                "Respected examiners, presenters are historically bound to handheld remotes, podiums, or tangled clickers. Today we present slideX: a completely browser-native, touchless presentation control system where any webcam becomes a high-precision input device."
               </p>
             </div>
 
@@ -197,7 +197,7 @@ export function DocsView() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {[
-              { num: '01', title: 'Title & Team Credentials', desc: 'GestureDeck: On-Device Vision Presentation System' },
+              { num: '01', title: 'Title & Team Credentials', desc: 'slideX: On-Device Vision Presentation System' },
               { num: '02', title: 'Problem Formulation', desc: 'Limitations of physical remotes & latency bottlenecks in cloud vision' },
               { num: '03', title: 'Literature Review & Prior Art', desc: 'Leap Motion, Kinect, vs. Commodity RGB Webcam pipelines' },
               { num: '04', title: 'System Architecture', desc: 'React 18 + Web Workers + MediaPipe WASM + FastAPI Backend' },

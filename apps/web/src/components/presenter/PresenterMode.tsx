@@ -297,7 +297,7 @@ export function PresenterMode() {
 
                 {/* Slide Footer */}
                 <div className="flex items-center justify-between text-xs text-zinc-500 border-t border-white/10 pt-4 font-mono">
-                  <span>GestureDeck Touchless Engine</span>
+                  <span>slideX Touchless Engine</span>
                   <span>{currentDeck?.category}</span>
                 </div>
               </motion.div>

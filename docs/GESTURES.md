@@ -1,4 +1,4 @@
-# GestureDeck — Gesture Vocabulary & State Machine
+# slideX — Gesture Vocabulary & State Machine
 
 ## 1. Gesture Vocabulary Reference
 

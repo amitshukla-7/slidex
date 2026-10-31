@@ -65,7 +65,7 @@ interface PresentationStore {
 const INITIAL_PRESENTATIONS: Presentation[] = [
   {
     id: 'deck-1',
-    title: 'GestureDeck: On-Device Vision for Touchless Presentation Systems',
+    title: 'slideX: On-Device Vision for Touchless Presentation Systems',
     description: 'Final Year Cornerstone Engineering Defense on MediaPipe HandLandmarker, TFJS gesture classification, and zero-latency human-computer interaction.',
     category: 'Computer Science & AI',
     author: 'Project Viva Candidate',
@@ -76,10 +76,10 @@ const INITIAL_PRESENTATIONS: Presentation[] = [
       {
         id: 's1-1',
         slideNumber: 1,
-        title: 'GestureDeck',
+        title: 'slideX',
         subtitle: 'Production-Grade AI-Powered Gesture-Controlled Presentation System',
         estimatedDurationSeconds: 45,
-        speakerNotes: 'Good morning committee members and advisors. Today I am presenting GestureDeck: a completely browser-native, touchless presentation control system powered by local computer vision.',
+        speakerNotes: 'Good morning committee members and advisors. Today I am presenting slideX: a completely browser-native, touchless presentation control system powered by local computer vision.',
         annotations: [],
         elements: [
           {
@@ -124,7 +124,7 @@ const INITIAL_PRESENTATIONS: Presentation[] = [
           {
             id: 'e2-2',
             type: 'text',
-            content: 'GestureDeck removes all specialized hardware dependencies: any standard 720p webcam becomes a precision input instrument.',
+            content: 'slideX removes all specialized hardware dependencies: any standard 720p webcam becomes a precision input instrument.',
           },
         ],
       },
@@ -163,7 +163,7 @@ const INITIAL_PRESENTATIONS: Presentation[] = [
         title: 'Gesture State Machine & Smoothing',
         subtitle: 'Preventing False Positives through Hysteresis and Cooldown Locks',
         estimatedDurationSeconds: 75,
-        speakerNotes: 'A major pitfall in academic vision systems is accidental triggers. GestureDeck solves this using an explicit Armed/Idle state machine requiring a 1-second open palm hold, paired with adaptive temporal debounce.',
+        speakerNotes: 'A major pitfall in academic vision systems is accidental triggers. slideX solves this using an explicit Armed/Idle state machine requiring a 1-second open palm hold, paired with adaptive temporal debounce.',
         annotations: [],
         elements: [
           {
@@ -376,7 +376,7 @@ export const usePresentationStore = create<PresentationStore>((set, get) => ({
           id: `${id}-s1`,
           slideNumber: 1,
           title: title,
-          subtitle: 'Created in GestureDeck',
+          subtitle: 'Created in slideX',
           estimatedDurationSeconds: 60,
           speakerNotes: 'Slide 1 introduction.',
           annotations: [],

@@ -1,7 +1,7 @@
-# GestureDeck — System Architecture Specification
+# slideX — System Architecture Specification
 
 ## 1. Executive Summary
-**GestureDeck** is an on-device, vision-controlled presentation delivery system. Designed for enterprise and academic speakers, it replaces physical clickers and laser pointers with continuous computer vision inference running inside the client browser. Zero video frames are transmitted over any network, ensuring 100% privacy compliance.
+**slideX** is an on-device, vision-controlled presentation delivery system. Designed for enterprise and academic speakers, it replaces physical clickers and laser pointers with continuous computer vision inference running inside the client browser. Zero video frames are transmitted over any network, ensuring 100% privacy compliance.
 
 ---
 

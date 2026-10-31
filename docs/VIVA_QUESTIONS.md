@@ -1,8 +1,8 @@
-# GestureDeck — Faculty Viva Question Bank & Answers
+# slideX — Faculty Viva Question Bank & Answers
 
 ### Q1. Why did you choose MediaPipe Tasks Vision over running OpenCV/YOLO on a backend server?
 **Answer:**
-Client-side MediaPipe WASM processes video frames locally on the user's device at 30+ FPS with zero network overhead. If video frames were streamed to a remote Python backend, round-trip latency would exceed 200–500ms due to bandwidth and compression bottlenecks, making real-time laser pointing unusable. Furthermore, streaming live camera video creates critical privacy and GDPR compliance issues; GestureDeck guarantees zero camera frames ever leave the browser.
+Client-side MediaPipe WASM processes video frames locally on the user's device at 30+ FPS with zero network overhead. If video frames were streamed to a remote Python backend, round-trip latency would exceed 200–500ms due to bandwidth and compression bottlenecks, making real-time laser pointing unusable. Furthermore, streaming live camera video creates critical privacy and GDPR compliance issues; slideX guarantees zero camera frames ever leave the browser.
 
 ### Q2. How does the One Euro filter eliminate jitter without introducing lag?
 **Answer:**
@@ -51,4 +51,4 @@ FastAPI maintains an asynchronous WebSocket room manager (`/ws/sync/{deck_id}`).
 
 ### Q10. What are the key contributions of this project compared to commercial solutions?
 **Answer:**
-Commercial presentation tools require expensive proprietary hardware (Logitech Spotlight, etc.) or clunky USB dongles. Free software solutions either rely on simple binary thresholding or send video to cloud APIs. GestureDeck delivers a production-grade, privacy-first, on-device AI system with adaptive filtering, robust state-machine safety, voice fallback, and automated rehearsal pacing analytics in an open-source web stack.
+Commercial presentation tools require expensive proprietary hardware (Logitech Spotlight, etc.) or clunky USB dongles. Free software solutions either rely on simple binary thresholding or send video to cloud APIs. slideX delivers a production-grade, privacy-first, on-device AI system with adaptive filtering, robust state-machine safety, voice fallback, and automated rehearsal pacing analytics in an open-source web stack.

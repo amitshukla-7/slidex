@@ -297,7 +297,7 @@ export function SlideEditorView() {
             </div>
 
             <div className="flex items-center justify-between text-[11px] text-muted-foreground border-t border-border pt-3 font-mono">
-              <span>GestureDeck Canvas Engine</span>
+              <span>slideX Canvas Engine</span>
               <span>Slide {currentSlideIndex + 1} of {slides.length}</span>
             </div>
           </div>

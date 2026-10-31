@@ -76,7 +76,7 @@ export function LandingView() {
                 <span className="h-3 w-3 rounded-full bg-zinc-300 dark:bg-zinc-700" />
                 <span className="h-3 w-3 rounded-full bg-zinc-300 dark:bg-zinc-700" />
                 <span className="h-3 w-3 rounded-full bg-zinc-300 dark:bg-zinc-700" />
-                <span className="text-xs font-medium text-foreground ml-2">GestureDeck Presenter View</span>
+                <span className="text-xs font-medium text-foreground ml-2">slideX Presenter View</span>
               </div>
               <div className="flex items-center gap-2 text-xs font-medium text-emerald-500">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -196,7 +196,7 @@ export function LandingView() {
       {/* Footer */}
       <footer className="border-t border-border py-8 px-6 text-center text-xs text-muted-foreground flex flex-col sm:flex-row items-center justify-between max-w-5xl mx-auto gap-4">
         <div className="flex items-center gap-2">
-          <span className="font-semibold text-foreground">GestureDeck</span>
+          <span className="font-semibold text-foreground">slideX</span>
           <span>—</span>
           <span>Touchless Presentation System</span>
         </div>

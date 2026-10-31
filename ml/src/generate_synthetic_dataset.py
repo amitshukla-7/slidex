@@ -1,5 +1,5 @@
 """
-GestureDeck - Synthetic Landmark Dataset Generator
+slideX - Synthetic Landmark Dataset Generator
 Generates realistic 3D hand landmark distributions across all 8 gesture categories
 with authentic biomechanical constraints and lighting-condition noise.
 """

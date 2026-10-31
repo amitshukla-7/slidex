@@ -29,7 +29,7 @@ export class CustomGestureEngine {
   private loadMetadata(): void {
     if (typeof window === 'undefined') return;
     try {
-      const saved = localStorage.getItem('gesturedeck_custom_gestures');
+      const saved = localStorage.getItem('slidex_custom_gestures') || localStorage.getItem('gesturedeck_custom_gestures');
       if (saved) {
         this.customGestures = JSON.parse(saved);
       }
@@ -41,7 +41,7 @@ export class CustomGestureEngine {
   private saveMetadata(): void {
     if (typeof window === 'undefined') return;
     try {
-      localStorage.setItem('gesturedeck_custom_gestures', JSON.stringify(this.customGestures));
+      localStorage.setItem('slidex_custom_gestures', JSON.stringify(this.customGestures));
     } catch {
       // Ignored
     }

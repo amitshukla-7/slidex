@@ -1,8 +1,8 @@
 {
-  "name": "gesturedeck-monorepo",
+  "name": "slidex-monorepo",
   "version": "1.0.0",
   "private": true,
-  "description": "GestureDeck: Production-Grade AI-Powered Gesture-Controlled Presentation System",
+  "description": "slideX: Production-Grade AI-Powered Gesture-Controlled Presentation System",
   "workspaces": [
     "apps/*"
   ],
@@ -23,6 +23,6 @@
     "fastapi",
     "react"
   ],
-  "author": "GestureDeck Engineering Team",
+  "author": "slideX Engineering Team",
   "license": "MIT"
 }

@@ -9,7 +9,7 @@ from app.api import auth, presentations, ai
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("gesturedeck")
+logger = logging.getLogger("slidex")
 
 # Create tables in dev database
 Base.metadata.create_all(bind=engine)
@@ -17,7 +17,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="GestureDeck Backend API: Auth, Presentation Storage, LLM Generation & WebSocket Sync",
+    description="slideX Backend API: Auth, Presentation Storage, LLM Generation & WebSocket Sync",
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     docs_url=f"{settings.API_V1_STR}/docs",
 )

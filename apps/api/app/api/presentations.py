@@ -54,7 +54,7 @@ def create_presentation(deck_in: PresentationCreate, db: Session = Depends(get_d
         presentation_id=new_deck.id,
         slide_number=1,
         title=new_deck.title,
-        subtitle="Presentation created in GestureDeck",
+        subtitle="Presentation created in slideX",
         elements_json=json.dumps([
             {"id": "el-1", "type": "bullet_list", "content": ["Introduction talking point", "Key technical insight"]}
         ]),

@@ -1,4 +1,4 @@
-# GestureDeck — Production-Grade AI-Powered Gesture Presentation System
+# slideX — Production-Grade AI-Powered Gesture Presentation System
 
 > **Final-Year Engineering Cornerstone Project**  
 > Complete, touchless, browser-native presentation delivery system utilizing MediaPipe Tasks Vision, TensorFlow.js landmark classification, One Euro filtering, and FastAPI backend.
@@ -140,9 +140,9 @@ python -m pytest tests/test_api.py -v   # 7/7 integration tests covering auth, C
 
 Create a `.env` file in `apps/api/`:
 ```env
-PROJECT_NAME="GestureDeck API"
+PROJECT_NAME="slideX API"
 SECRET_KEY="your-production-secret-key"
-DATABASE_URL="sqlite:///./gesturedeck.db"
+DATABASE_URL="sqlite:///./slidex.db"
 BACKEND_CORS_ORIGINS=["http://localhost:5173","http://localhost:3000","http://127.0.0.1:5173"]
 OPENAI_API_KEY="" # Optional: for AI deck generation
 ANTHROPIC_API_KEY="" # Optional: for AI deck generation

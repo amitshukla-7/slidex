@@ -185,7 +185,7 @@ export function GestureTrainerView() {
             Custom Gesture Trainer
           </h1>
           <p className="text-xs text-muted-foreground">
-            Teach GestureDeck your own personal hand gesture using client-side transfer learning.
+            Teach slideX your own personal hand gesture using client-side transfer learning.
           </p>
         </div>
 

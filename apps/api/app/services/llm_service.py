@@ -3,7 +3,7 @@ import logging
 from typing import List, Dict, Any, Optional
 from app.core.config import settings
 
-logger = logging.getLogger("gesturedeck.ai")
+logger = logging.getLogger("slidex.ai")
 
 
 class LLMService:

@@ -1,5 +1,5 @@
 """
-GestureDeck - Gesture Classifier Training & Evaluation Pipeline
+slideX - Gesture Classifier Training & Evaluation Pipeline
 Trains a high-performance Multilayer Perceptron (MLP) on 21 normalized 3D hand landmarks.
 Generates comprehensive evaluation metrics, confusion matrix, and exports for browser deployment.
 """
@@ -28,7 +28,7 @@ def train_and_evaluate(
     os.makedirs(tfjs_export_dir, exist_ok=True)
 
     print("=" * 60)
-    print(" GESTUREDECK ML PIPELINE: MODEL TRAINING & BENCHMARKING")
+    print(" SLIDEX ML PIPELINE: MODEL TRAINING & BENCHMARKING")
     print("=" * 60)
 
     # 1. Load dataset
@@ -151,7 +151,7 @@ def train_and_evaluate(
     # Generate Markdown Report
     md_report_path = os.path.join(reports_dir, "evaluation_report.md")
     with open(md_report_path, "w") as f:
-        f.write(f"# GestureDeck — ML Model Evaluation Report\n\n")
+        f.write(f"# slideX — ML Model Evaluation Report\n\n")
         f.write(f"- **Generated**: {summary['timestamp']}\n")
         f.write(f"- **Overall Test Accuracy**: **{summary['accuracy']}%**\n")
         f.write(f"- **Weighted F1-Score**: **{summary['weighted_f1']}%**\n")

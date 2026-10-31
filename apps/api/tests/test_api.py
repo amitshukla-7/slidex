@@ -21,7 +21,7 @@ def test_health_check():
 
 
 def test_auth_workflow():
-    unique_email = f"evaluator_{int(time.time())}@gesturedeck.io"
+    unique_email = f"evaluator_{int(time.time())}@slidex.io"
     # Register
     reg_res = client.post(
         "/api/v1/auth/register",
@@ -120,7 +120,7 @@ def test_ai_audience_qna():
     response = client.post(
         "/api/v1/ai/audience-qna",
         json={
-            "deck_title": "GestureDeck Evaluation",
+            "deck_title": "slideX Evaluation",
             "slides_summary": [
                 "Slide 1: High FPS MediaPipe on-device processing",
                 "Slide 2: 63-parameter spatial normalization",

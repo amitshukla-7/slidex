@@ -20,8 +20,8 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql://gesturedeck:gesturedeck@postgres:5432/gesturedeck
-      - SECRET_KEY=production-secret-gesturedeck-key-change-me
+      - DATABASE_URL=postgresql://slidex:slidex@postgres:5432/slidex
+      - SECRET_KEY=production-secret-slidex-key-change-me
       - BACKEND_CORS_ORIGINS=["http://localhost:5173","http://localhost:80","http://127.0.0.1:5173"]
     depends_on:
       - postgres
@@ -30,9 +30,9 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: gesturedeck
-      POSTGRES_PASSWORD: gesturedeck
-      POSTGRES_DB: gesturedeck
+      POSTGRES_USER: slidex
+      POSTGRES_PASSWORD: slidex
+      POSTGRES_DB: slidex
     ports:
       - "5432:5432"
     volumes:

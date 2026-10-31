@@ -1,4 +1,4 @@
-# GestureDeck — ML Model Evaluation Report
+# slideX  ML Model Evaluation Report
 
 - **Generated**: 2026-10-24 12:11:19
 - **Overall Test Accuracy**: **98.12%**
