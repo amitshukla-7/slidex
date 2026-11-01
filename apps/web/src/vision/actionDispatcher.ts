@@ -60,6 +60,15 @@ export class ActionDispatcher {
   private activeStrokePoints: { x: number; y: number }[] = [];
   private isDrawing = false;
 
+  private mapCoordinate(normX: number, normY: number): { x: number; y: number } {
+    // Range expansion: maps central 76% of camera FOV to full slide canvas
+    // Prevents requiring the user's hand to touch physical camera borders
+    const mirroredX = 1.0 - normX;
+    const clampedX = Math.max(0, Math.min(1, (mirroredX - 0.12) / 0.76));
+    const clampedY = Math.max(0, Math.min(1, (normY - 0.12) / 0.76));
+    return { x: clampedX, y: clampedY };
+  }
+
   dispatch(event: GestureEvent): void {
     const { soundFeedback } = useAppStore.getState();
     const presStore = usePresentationStore.getState();
@@ -110,23 +119,20 @@ export class ActionDispatcher {
 
       case 'POINTING':
         if (event.pointerCoord) {
-          // Camera is horizontally mirrored: invert x so it maps naturally to the slide
-          const mappedX = 1.0 - event.pointerCoord.x;
-          const mappedY = event.pointerCoord.y;
-          presStore.setLaserPointer({ x: mappedX, y: mappedY, active: true });
+          const { x, y } = this.mapCoordinate(event.pointerCoord.x, event.pointerCoord.y);
+          presStore.setLaserPointer({ x, y, active: true });
         }
         break;
 
       case 'PINCH':
         if (event.pinchCoord) {
-          const mappedX = 1.0 - event.pinchCoord.x;
-          const mappedY = event.pinchCoord.y;
+          const { x, y } = this.mapCoordinate(event.pinchCoord.x, event.pinchCoord.y);
 
-          this.activeStrokePoints.push({ x: mappedX, y: mappedY });
+          this.activeStrokePoints.push({ x, y });
           this.isDrawing = true;
 
-          // When enough points are gathered, append/update annotation
-          if (this.activeStrokePoints.length >= 3) {
+          // When enough points are gathered, append/update annotation with smooth continuous lines
+          if (this.activeStrokePoints.length >= 2) {
             presStore.addAnnotation(presStore.currentSlideIndex, {
               id: `ann-${Date.now()}`,
               points: [...this.activeStrokePoints],
@@ -134,7 +140,7 @@ export class ActionDispatcher {
               width: presStore.strokeWidth,
               timestamp: Date.now(),
             });
-            this.activeStrokePoints = [{ x: mappedX, y: mappedY }]; // Continue stroke
+            this.activeStrokePoints = [{ x, y }]; // Continue stroke smoothly
           }
         }
         break;

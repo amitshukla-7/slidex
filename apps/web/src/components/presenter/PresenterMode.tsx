@@ -80,6 +80,7 @@ export function PresenterMode() {
       if (videoRef.current && canvasRef.current) {
         try {
           await visionEngine.start(videoRef.current, canvasRef.current);
+          visionEngine.setArmed(true);
         } catch (err) {
           console.warn('Vision engine camera initialization:', err);
         }
@@ -313,42 +314,45 @@ export function PresenterMode() {
       </div>
 
       {/* Picture-in-Picture Webcam Stream with Hand Skeleton (Bottom-Right) */}
-      {showPipWebcam && (
-        <div className="fixed bottom-20 right-6 z-30 w-52 aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-950 border border-white/20 shadow-2xl flex flex-col justify-between">
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover transform -scale-x-100 absolute inset-0"
-            playsInline
-            muted
-          />
-          <canvas
-            ref={canvasRef}
-            width={640}
-            height={480}
-            className="absolute inset-0 w-full h-full pointer-events-none z-10"
-          />
+      <div
+        className={cn(
+          "fixed bottom-20 right-6 z-30 w-52 aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-950 border border-white/20 shadow-2xl flex flex-col justify-between transition-all duration-200",
+          !showPipWebcam && "opacity-0 pointer-events-none scale-95"
+        )}
+      >
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover transform -scale-x-100 absolute inset-0"
+          playsInline
+          muted
+        />
+        <canvas
+          ref={canvasRef}
+          width={640}
+          height={480}
+          className="absolute inset-0 w-full h-full pointer-events-none z-10"
+        />
 
-          {/* PiP Overlay Controls */}
-          <div className="relative z-20 flex items-center justify-between p-2 bg-gradient-to-b from-black/80 to-transparent text-[10px] text-white">
-            <span className="flex items-center gap-1 font-medium">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Camera Feed
-            </span>
-            <button
-              onClick={() => setShowPipWebcam(false)}
-              className="p-0.5 rounded hover:bg-white/20"
-              title="Hide webcam preview"
-            >
-              <X className="h-3 w-3" />
-            </button>
-          </div>
-
-          <div className="relative z-20 p-2 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-between text-[10px] font-mono text-zinc-400">
-            <span>WASM Vision</span>
-            <span className="text-emerald-400 font-semibold">{gestureState.toUpperCase()}</span>
-          </div>
+        {/* PiP Overlay Controls */}
+        <div className="relative z-20 flex items-center justify-between p-2 bg-gradient-to-b from-black/80 to-transparent text-[10px] text-white">
+          <span className="flex items-center gap-1 font-medium">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Camera Feed
+          </span>
+          <button
+            onClick={() => setShowPipWebcam(false)}
+            className="p-0.5 rounded hover:bg-white/20"
+            title="Hide webcam preview"
+          >
+            <X className="h-3 w-3" />
+          </button>
         </div>
-      )}
+
+        <div className="relative z-20 p-2 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-between text-[10px] font-mono text-zinc-400">
+          <span>WASM Vision</span>
+          <span className="text-emerald-400 font-semibold">{gestureState.toUpperCase()}</span>
+        </div>
+      </div>
 
       {/* Bottom Floating Presenter Toolbar */}
       <div className="flex items-center justify-center p-4 z-30">

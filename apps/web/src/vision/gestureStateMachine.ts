@@ -1,10 +1,11 @@
 import { GestureType, GestureState, GestureEvent, Handedness } from './types';
 
 export interface StateMachineConfig {
-  armedHoldDurationMs: number; // Duration to hold open palm to arm (default: 1000ms)
-  fistHoldDurationMs: number;  // Duration to hold fist to pause (default: 1000ms)
-  cooldownMs: number;          // Refractory deadtime after a discrete gesture (default: 750ms)
-  minConfidence: number;       // Minimum confidence required to fire (default: 0.80)
+  armedHoldDurationMs: number; // Duration to hold open palm to arm (default: 300ms)
+  fistHoldDurationMs: number;  // Duration to hold fist to pause (default: 600ms)
+  cooldownMs: number;          // Refractory deadtime after a discrete gesture (default: 380ms)
+  minConfidence: number;       // Minimum confidence required to fire (default: 0.65)
+  autoArmOnDetection?: boolean;// Automatically arm when a hand is detected (default: true)
 }
 
 export class GestureStateMachine {
@@ -19,11 +20,13 @@ export class GestureStateMachine {
   private onActionEventCallback?: (event: GestureEvent) => void;
 
   constructor(config: Partial<StateMachineConfig> = {}) {
+    const autoArm = config.autoArmOnDetection ?? (config.armedHoldDurationMs !== undefined ? false : true);
     this.config = {
-      armedHoldDurationMs: config.armedHoldDurationMs ?? 1000,
-      fistHoldDurationMs: config.fistHoldDurationMs ?? 1000,
-      cooldownMs: config.cooldownMs ?? 750,
-      minConfidence: config.minConfidence ?? 0.80,
+      armedHoldDurationMs: config.armedHoldDurationMs ?? 300,
+      fistHoldDurationMs: config.fistHoldDurationMs ?? 600,
+      cooldownMs: config.cooldownMs ?? 380,
+      minConfidence: config.minConfidence ?? 0.65,
+      autoArmOnDetection: autoArm,
     };
   }
 
@@ -56,7 +59,7 @@ export class GestureStateMachine {
     handedness: Handedness = 'Right',
     metadata: any = {}
   ): GestureEvent | null {
-    // 1. Check for Pause Lockout (Closed Fist held for 1s from any state)
+    // 1. Check for Pause Lockout (Closed Fist held from any state)
     if (detectedGesture === 'FIST' && confidence >= this.config.minConfidence) {
       if (this.fistStartTime === null) {
         this.fistStartTime = timestamp;
@@ -64,6 +67,7 @@ export class GestureStateMachine {
         if (this.state !== 'PAUSED') {
           this.setState('PAUSED');
           this.fistStartTime = null;
+          this.openPalmStartTime = null;
           return {
             gesture: 'FIST',
             state: 'PAUSED',
@@ -79,7 +83,35 @@ export class GestureStateMachine {
 
     // 2. Handle IDLE or PAUSED state -> Transition to ARMED
     if (this.state === 'IDLE' || this.state === 'PAUSED') {
-      if (detectedGesture === 'OPEN_PALM' && confidence >= this.config.minConfidence) {
+      // If paused, require sustained open palm to unpause
+      if (this.state === 'PAUSED') {
+        if (detectedGesture === 'OPEN_PALM' && confidence >= this.config.minConfidence) {
+          if (this.openPalmStartTime === null) {
+            this.openPalmStartTime = timestamp;
+          } else if (timestamp - this.openPalmStartTime >= this.config.armedHoldDurationMs) {
+            this.setState('ARMED');
+            this.openPalmStartTime = null;
+            return {
+              gesture: 'OPEN_PALM',
+              state: 'ARMED',
+              confidence,
+              timestamp,
+              handedness,
+            };
+          }
+        } else {
+          this.openPalmStartTime = null;
+        }
+        return null;
+      }
+
+      // If IDLE:
+      // When autoArmOnDetection is enabled, arm immediately on any valid gesture
+      if (this.config.autoArmOnDetection && detectedGesture !== 'NONE') {
+        this.setState('ARMED');
+        this.openPalmStartTime = null;
+        // Proceed directly into ARMED handling below so initial swipe/point is not lost!
+      } else if (detectedGesture === 'OPEN_PALM' && confidence >= this.config.minConfidence) {
         if (this.openPalmStartTime === null) {
           this.openPalmStartTime = timestamp;
         } else if (timestamp - this.openPalmStartTime >= this.config.armedHoldDurationMs) {
@@ -93,15 +125,15 @@ export class GestureStateMachine {
             handedness,
           };
         }
+        return null;
       } else {
         this.openPalmStartTime = null;
+        return null;
       }
-      return null;
     }
 
     // 3. Handle ARMED or EXECUTING state
     if (this.state === 'ARMED' || this.state === 'EXECUTING') {
-      // Check refractory cooldown for discrete triggers
       const inCooldown = timestamp - this.lastActionTime < this.config.cooldownMs;
 
       // Continuous gesture 1: Virtual Laser Pointer (Pointing)
@@ -149,10 +181,10 @@ export class GestureStateMachine {
           handedness,
         };
 
-        // Fire callback and return
+        // Fire registered action event callback (if any)
         this.onActionEventCallback?.(event);
 
-        // Schedule reset back to ARMED after cooldown
+        // Reset back to ARMED after cooldown
         setTimeout(() => {
           if (this.state === 'EXECUTING') {
             this.setState('ARMED');

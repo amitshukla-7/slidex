@@ -5,6 +5,7 @@ import { GestureClassifier } from './gestureClassifier';
 import { GestureStateMachine } from './gestureStateMachine';
 import { actionDispatcher } from './actionDispatcher';
 import { useAppStore } from '@/stores/appStore';
+import { usePresentationStore } from '@/stores/presentationStore';
 
 export class VisionEngine {
   private static instance: VisionEngine | null = null;
@@ -16,10 +17,10 @@ export class VisionEngine {
   private isRunning = false;
   private animFrameId: number | null = null;
 
-  // Pipeline subcomponents
-  private oneEuroFilter = new HandLandmarkOneEuroFilter({ minCutoff: 1.0, beta: 0.007 });
+  // Pipeline subcomponents with high-responsiveness tuning
+  private oneEuroFilter = new HandLandmarkOneEuroFilter({ minCutoff: 1.2, beta: 0.05, dCutoff: 1.0 });
   private classifier = new GestureClassifier();
-  private stateMachine = new GestureStateMachine();
+  private stateMachine = new GestureStateMachine({ autoArmOnDetection: true });
 
   // Metrics tracking
   private lastFrameTime = performance.now();
@@ -35,9 +36,11 @@ export class VisionEngine {
       useAppStore.getState().setGestureState(state.toLowerCase() as any);
     });
 
-    this.stateMachine.onActionEvent((event) => {
-      actionDispatcher.dispatch(event);
-    });
+    // Sync initial sensitivity
+    const initialSens = useAppStore.getState().gestureSensitivity;
+    if (initialSens) {
+      this.classifier.setSensitivity(initialSens);
+    }
   }
 
   static getInstance(): VisionEngine {
@@ -47,8 +50,17 @@ export class VisionEngine {
     return VisionEngine.instance;
   }
 
+  getStateMachine(): GestureStateMachine {
+    return this.stateMachine;
+  }
+
+  setArmed(armed: boolean): void {
+    this.stateMachine.setState(armed ? 'ARMED' : 'IDLE');
+  }
+
   /**
    * Initializes MediaPipe HandLandmarker with GPU delegate (falling back to CPU if unavailable).
+   * Robust confidence thresholds (0.50) prevent hand drop during fast swipes or motion blur.
    */
   async initialize(): Promise<void> {
     if (this.handLandmarker) return;
@@ -68,9 +80,9 @@ export class VisionEngine {
           },
           runningMode: 'VIDEO',
           numHands: 1,
-          minHandDetectionConfidence: 0.65,
-          minHandPresenceConfidence: 0.65,
-          minTrackingConfidence: 0.65,
+          minHandDetectionConfidence: 0.50,
+          minHandPresenceConfidence: 0.50,
+          minTrackingConfidence: 0.50,
         });
       } catch (gpuError) {
         console.warn('GPU delegate unavailable, falling back to CPU delegate:', gpuError);
@@ -82,9 +94,9 @@ export class VisionEngine {
           },
           runningMode: 'VIDEO',
           numHands: 1,
-          minHandDetectionConfidence: 0.65,
-          minHandPresenceConfidence: 0.65,
-          minTrackingConfidence: 0.65,
+          minHandDetectionConfidence: 0.50,
+          minHandPresenceConfidence: 0.50,
+          minTrackingConfidence: 0.50,
         });
       }
     } catch (err) {
@@ -114,6 +126,7 @@ export class VisionEngine {
         video: {
           width: { ideal: 640 },
           height: { ideal: 480 },
+          frameRate: { ideal: 60, min: 30 },
           facingMode: 'user',
         },
         audio: false,
@@ -126,6 +139,12 @@ export class VisionEngine {
       this.stateMachine.reset();
       this.oneEuroFilter.reset();
       this.classifier.reset();
+
+      // Ensure sensitivity from user settings is applied
+      const sens = useAppStore.getState().gestureSensitivity;
+      if (sens) {
+        this.classifier.setSensitivity(sens);
+      }
 
       this.processLoop();
     } catch (err) {
@@ -141,6 +160,12 @@ export class VisionEngine {
     if (!this.isRunning || !this.videoElement || !this.handLandmarker) return;
 
     const startTime = performance.now();
+
+    // Dynamically apply any changes to gesture sensitivity
+    const currentSensitivity = useAppStore.getState().gestureSensitivity;
+    if (currentSensitivity) {
+      this.classifier.setSensitivity(currentSensitivity);
+    }
 
     // Ensure video has received data
     if (this.videoElement.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
@@ -162,10 +187,10 @@ export class VisionEngine {
         const rawHandedness = (results.handedness?.[0]?.[0]?.categoryName as Handedness) || 'Right';
         const confidence = results.handedness?.[0]?.[0]?.score || 0.95;
 
-        // 1. Landmark smoothing via One Euro Filter
+        // 1. Landmark smoothing via One Euro Filter with high dynamic responsiveness
         const smoothedLandmarks = this.oneEuroFilter.filter(rawLandmarks, startTime);
 
-        // 2. Gesture classification
+        // 2. Gesture classification (tolerant kinematics & scale invariant)
         const classification = this.classifier.classify(smoothedLandmarks, startTime, rawHandedness);
 
         // 3. Finite State Machine evaluation
@@ -177,11 +202,18 @@ export class VisionEngine {
           classification.metadata
         );
 
+        // 4. Dispatch action exactly once
         if (gestureEvent) {
           actionDispatcher.dispatch(gestureEvent);
+        } else if (classification.gesture !== 'POINTING') {
+          // Turn off laser pointer if active when pointing stops
+          const presState = usePresentationStore.getState();
+          if (presState.laserPointer.active) {
+            presState.setLaserPointer({ ...presState.laserPointer, active: false });
+          }
         }
 
-        // 4. Update HUD and telemetry store
+        // 5. Update HUD and telemetry store
         useAppStore.getState().setPerformance({
           fps: this.currentFps,
           latencyMs,
@@ -192,7 +224,7 @@ export class VisionEngine {
 
         useAppStore.getState().setCurrentGesture(classification.gesture);
 
-        // 5. Render hand skeleton overlay if canvas is attached
+        // 6. Render hand skeleton overlay if canvas is attached
         if (this.canvasElement) {
           this.drawSkeleton(smoothedLandmarks, classification.gesture);
         }
@@ -210,8 +242,15 @@ export class VisionEngine {
           [smoothedLandmarks]
         );
       } else {
-        // No hand detected
+        // No hand detected in current frame
         useAppStore.getState().setCurrentGesture('None');
+
+        // Turn off laser pointer when hand leaves camera
+        const presState = usePresentationStore.getState();
+        if (presState.laserPointer.active) {
+          presState.setLaserPointer({ ...presState.laserPointer, active: false });
+        }
+
         if (this.canvasElement) {
           const ctx = this.canvasElement.getContext('2d');
           if (ctx) ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
@@ -247,31 +286,26 @@ export class VisionEngine {
 
     // Bone lines
     ctx.lineWidth = 2.5;
-    ctx.strokeStyle = gesture === 'POINTING' ? '#ef4444' : '#0284c7';
-    ctx.beginPath();
-    for (const [start, end] of connections) {
-      const p1 = landmarks[start];
-      const p2 = landmarks[end];
-      // Flip x to match horizontally mirrored camera
-      ctx.moveTo((1 - p1.x) * w, p1.y * h);
-      ctx.lineTo((1 - p2.x) * w, p2.y * h);
-    }
-    ctx.stroke();
+    ctx.strokeStyle = gesture === 'POINTING' ? '#ef4444' : gesture.includes('SWIPE') ? '#10b981' : '#0284c7';
 
-    // Landmark joint dots
-    for (let i = 0; i < landmarks.length; i++) {
-      const p = landmarks[i];
-      const isTip = [4, 8, 12, 16, 20].includes(i);
-      ctx.fillStyle = isTip ? '#38bdf8' : '#ffffff';
+    connections.forEach(([i, j]) => {
+      const p1 = landmarks[i];
+      const p2 = landmarks[j];
       ctx.beginPath();
-      ctx.arc((1 - p.x) * w, p.y * h, isTip ? 4 : 2.5, 0, 2 * Math.PI);
+      ctx.moveTo(p1.x * w, p1.y * h);
+      ctx.lineTo(p2.x * w, p2.y * h);
+      ctx.stroke();
+    });
+
+    // Landmark joint circles
+    landmarks.forEach((p, idx) => {
+      ctx.beginPath();
+      ctx.arc(p.x * w, p.y * h, idx === 8 ? 5.5 : 3, 0, Math.PI * 2);
+      ctx.fillStyle = idx === 8 && gesture === 'POINTING' ? '#ef4444' : '#ffffff';
       ctx.fill();
-    }
+    });
   }
 
-  /**
-   * Stops camera stream and frees resources
-   */
   stop(): void {
     this.isRunning = false;
     if (this.animFrameId) {

@@ -12,6 +12,7 @@
     "build": "npm run build --workspace=apps/web",
     "build:web": "npm run build --workspace=apps/web",
     "lint": "npm run lint --workspace=apps/web",
+    "test:vision": "node apps/web/scripts/run-vision-tests.mjs",
     "preview": "npm run preview --workspace=apps/web"
   },
   "keywords": [

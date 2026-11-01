@@ -42,8 +42,8 @@ export class OneEuroFilter1D {
   private lastTime: number | null = null;
 
   constructor(config: Partial<OneEuroConfig> = {}) {
-    this.minCutoff = config.minCutoff ?? 1.0; // 1.0 Hz
-    this.beta = config.beta ?? 0.007;
+    this.minCutoff = config.minCutoff ?? 1.2; // 1.2 Hz base cutoff for steady hold
+    this.beta = config.beta ?? 0.05;         // High responsiveness during fast flicks
     this.dCutoff = config.dCutoff ?? 1.0;
   }
 
@@ -53,6 +53,11 @@ export class OneEuroFilter1D {
   }
 
   filter(value: number, timestamp: number): number {
+    // If more than 350ms elapsed between frames, reset filter to avoid swooping artifacts
+    if (this.lastTime !== null && timestamp - this.lastTime > 350) {
+      this.reset();
+    }
+
     if (this.lastTime === null) {
       this.lastTime = timestamp;
       return this.xFilter.filter(value, 1.0);
